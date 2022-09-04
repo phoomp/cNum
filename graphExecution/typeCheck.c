@@ -13,7 +13,7 @@ bool isNegative(char* number) {
     }
 
     if (number[0] == '-') {
-        if (strnlen(number, 10)) {
+        if (strnlen(number, 10) <= 1) {
             raiseCriticalErrorAndExit(-1, "Invalid number format");
         }
         printDebug("Negative number");
@@ -48,7 +48,7 @@ int typeCheckStringToNum(char* number, int numDigits) {
         if (num >= 48 && num <= 57) continue;
         else if (i == 0 && num == 45) continue;
         else if (num == 46 && !decimalFound) {
-            if (i == 0) {
+            if (i == 0 || i == numDigits - 1) {
                 raiseCriticalErrorAndExit(-1, "Shorthand notations are not allowed.");
             }
             decimalFound = true;
