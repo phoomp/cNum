@@ -15,22 +15,42 @@ void addObject(char* number, GraphObject* obj, int numObjects) {
     int startIndex = getStartIndex(number, numDigits);
     bool negative = isNegative(number);
 
+    numDigits -= negative;
+
+    newObj.negative = negative;
+
     if (decimal == 0) {
         printDebug("Decimal point not found. Make sure you would like an integer");
         newObj.power = numDigits - 1;
     }
     else {
-        printDebug("Decimal point found");
+        printDebug("Decimal point found\n");
         numDigits--;
-        newObj.power = decimal - 1;
+        newObj.numDigits = numDigits;
+        newObj.power = decimal - 1 - newObj.negative;
+
+        newObj.digits = (short*)malloc(sizeof(short) * (numDigits - startIndex));
+        printf("Allocated space for %d numbers\n", numDigits - startIndex);
+
+        bool afterDecimal = false;
+        for (int i = startIndex; i < numDigits + 1; i++) {
+            if (i == decimal) {
+                afterDecimal = true;
+                continue;
+            }
+            newObj.digits[i - afterDecimal] = (short)(number[i] - 48);
+            printf("Adding %d to index %d\n", (short)(number[i] - 48), i - afterDecimal);
+        }
     }
 
-    printf("numDigits: %d\n", numDigits);
-    printf("decimal: %d\n", decimal);
-    printf("newObj.power: %llu\n", newObj.power);
-    printf("startIndex: %d\n", startIndex);
+    // for (int i=0; i<newObj.numDigits; i++) {
+    //     printf("%d", newObj.digits[i]);
+    // }
 
-    printDebug("Starting value insertion...");
+    printf("\nnumDigits: %d\n", numDigits);
+    printf("decimal: %d\n", decimal);
+    printf("power: %llu\n", newObj.power);
+    printf("startIndex: %d\n", startIndex);
     
     return;
 }

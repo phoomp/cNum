@@ -28,7 +28,7 @@ bool isNegative(char* number) {
 int getStartIndex(char* number, int numDigits) {
     int i;
     for (i = 0; i < numDigits; i++) {
-        if (number[i] != '0' && number[i] != '-') {
+        if ((i < numDigits - 1 && (number[i] != '0' && number[i] != '.')) && number[i] != '-') {
             break;
         }
     }
