@@ -41,4 +41,5 @@ void addObject(char* number, GraphObject* obj, int numObjects);
 
 // typeCheck.c
 int typeCheckStringToNum(char* number, int numDigits);
+int getStartIndex(char* number, int numDigits);
 bool isNegative(char* number);

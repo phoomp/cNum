@@ -25,6 +25,16 @@ bool isNegative(char* number) {
     }
 }
 
+int getStartIndex(char* number, int numDigits) {
+    int i;
+    for (i = 0; i < numDigits; i++) {
+        if (number[i] != '0' && number[i] != '-') {
+            break;
+        }
+    }
+    return i;
+}
+
 
 // Returns the index of the decimal place if the string is a valid number
 // Else, returns -1

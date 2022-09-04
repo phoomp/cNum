@@ -12,8 +12,8 @@ void addObject(char* number, GraphObject* obj, int numObjects) {
     GraphObject newObj;
     int numDigits = strnlen(number, MAX_NUM_DIGITS);
     int decimal = typeCheckStringToNum(number, numDigits);
+    int startIndex = getStartIndex(number, numDigits);
     bool negative = isNegative(number);
-
 
     if (decimal == 0) {
         printDebug("Decimal point not found. Make sure you would like an integer");
@@ -22,13 +22,16 @@ void addObject(char* number, GraphObject* obj, int numObjects) {
     else {
         printDebug("Decimal point found");
         numDigits--;
-        newObj.power = numDigits - decimal - 1;
+        newObj.power = decimal - 1;
     }
 
     printf("numDigits: %d\n", numDigits);
     printf("decimal: %d\n", decimal);
     printf("newObj.power: %llu\n", newObj.power);
+    printf("startIndex: %d\n", startIndex);
 
+    printDebug("Starting value insertion...");
+    
     return;
 }
 
