@@ -5,3 +5,5 @@ graphExecution/graphObject.dSYM/*
 graphExecution/typeCheck.dSYM/Contents/Info.plist
 graphExecution/typeCheck.dSYM/Contents/Resources/DWARF/typeCheck
 operations/tests/*.out
+graphExecution/.DS_Store
+.DS_Store

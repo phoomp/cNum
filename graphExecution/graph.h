@@ -6,10 +6,17 @@ typedef struct GraphObject {
     uint64_t leastPrecision;
     uint64_t leastSignificant;
 
+    // If undefined, we do not evaluate this object at all.
+    bool undefined;
+
+    // Numbers are always stored as fraction for the highest precision.
     bool negative;
-    uint64_t numDigits;
-    short* digits;
-    uint64_t power;
+    uint64_t numNumerators;
+    uint64_t numDenominators;
+    unsigned short* numerators;
+    unsigned short* denominators;
+    uint64_t numPower;
+    uint64_t denomPower;
 
 } GraphObject;
 
