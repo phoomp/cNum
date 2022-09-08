@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef __uint64_t uint64_t;
+
 typedef struct GraphObject {
     char* name;
     uint64_t leastPrecision;
