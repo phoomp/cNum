@@ -25,22 +25,35 @@ bool isNegative(char* number) {
     }
 }
 
-// Looks for ONE (1) / sign only. More than one slash results in an error.
-bool isFraction(char* number, long maxDigits) {
-    long c = 0;
-    
+// Precondition: ONE (1) / sign only. More than one slash results in an error.
+// Returns: the index of the / sign, -1 if the fraction evaluates to undefined.
+// Throws: exception if there is more than one "/" sign or it is found at the beginning or the end of a number
+int isFraction(char* number, long maxDigits) {
+    long c = -1;
+    bool allZerosAfterDivideSign = true;
+
     for (long i = 0; i < maxDigits; i++) {
         if (number[i] == '/') {
-            c++;
-            if (c > 1) {
+            if (c != -1) {
                 raiseCriticalErrorAndExit(-1, "Found more than 1 '/'!");
             }
             else if (i == 0 || i == maxDigits - 1) {
                 raiseCriticalErrorAndExit(-1, "Found / at the beginning or the end!");
             }
+            else {
+                c = i;
+            }
+        }
+
+        if (c != -1 && number[i] != '0') {
+            allZerosAfterDivideSign = false;
         }
     }
+
+    if (allZerosAfterDivideSign) return -1;
+    else return c;
 }
+
 
 int getStartIndex(char* number, int numDigits) {
     int i;
