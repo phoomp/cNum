@@ -7,3 +7,4 @@ graphExecution/typeCheck.dSYM/Contents/Resources/DWARF/typeCheck
 operations/tests/*.out
 graphExecution/.DS_Store
 .DS_Store
+casio/bin/cpp/*.out
