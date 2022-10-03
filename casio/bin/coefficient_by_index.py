@@ -1,4 +1,6 @@
 from math import comb, gcd
+from ..core.terms import *
+from ..core.fractions import *
 
 ##### BEGIN GATHER #####
 def solve_given_index(t1, t2, power, index):
@@ -14,12 +16,24 @@ def solve_given_index(t1, t2, power, index):
     return Term(coefficient=coefficient, exponent=degree)
 
 def main():
-    t1 = Term(7, exponent=3)
-    t2 = Term(4, exponent=-1)
+    try:
+        t1c = int(input('t1c: '))
+        t1e = int(input('t1e: '))
+        t2c = int(input('t2c: '))
+        t2e = int(input('t2e: '))
+        p = int(input('p: '))
+        t = int(input('t idx: '))
 
-    res = solve_given_index(t1, t2, 9, 9)
-    print(res.coefficient)
-    print(res.exponent)
+    except TypeError as e:
+        print('err')
+        main()
+
+    t1 = Term(t1c, exponent=t1e)
+    t2 = Term(t2c, exponent=t2e)
+
+    res = solve_given_index(t1, t2, p, t)
+    print(f'c: {res.coefficient}')
+    print(f'ex: {res.exponent}')
 
 
 if __name__ == '__main__':

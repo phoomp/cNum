@@ -14,7 +14,8 @@ def compile_and_save():
     for d in dependencies:
         with open(d, 'r') as f:
             lines = f.readlines()
-            for line in line:
+            gathering = False
+            for line in lines:
                 if 'BEGIN GATHER' in line:
                     gathering = True
 
@@ -24,19 +25,17 @@ def compile_and_save():
                 if gathering:
                     text_to_write.append(line)
 
-
     with open(target, 'r') as f:
         lines = f.readlines()
-        for line in line:
+        for line in lines:
             if 'BEGIN GATHER' in line:
                 gathering = True
-
-            if 'END GATHER' in line:
-                gathering = False
 
             if gathering:
                 text_to_write.append(line)
 
+            if 'END GATHER' in line:
+                gathering = False
 
     with open(output, 'w') as out:
         text_to_write = '\n'.join(text_to_write)
