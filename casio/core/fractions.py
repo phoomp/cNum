@@ -13,27 +13,25 @@ def similar(f1, f2):
 def factorial(n, limit=None):
     if (limit is not None and n <= limit) or (limit is None and n < 1):
         return 1
-    elif type(n) == int:
-        return n * factorial(n - 1, limit)
-    elif type(n) == Fraction:
+    else:
         return n * factorial(n - 1, limit)
 
 
 def combination(n, r):
-    assert (type(n) == int or type(n)) == Fraction
+    assert type(n) == int or type(n) == Fraction
     assert type(r) == int or type(r) == Fraction and r >= 0
 
     # Type checking: r is a positive integer
     if type(r) == Fraction:
         assert r.isint()
-        r = int(r.value)
+        r = int(r)
 
     # Preparation: can we use Python's built-in function or not?
     n_isint = False
     n_use_builtin = False
-    if type(n) == int or n.isint():
+    if type(n) == int or n.is_int():
         n_isint = True
-        n = int(n.value)
+        n = int(n)
         if n >= 0:
             n_use_builtin = True
 
@@ -60,7 +58,7 @@ def combination(n, r):
         return comb(n, r)
     else:
         # Use the formula for combinations
-        factorial(3)
+        return factorial(n, limit=n - r) / factorial(r)
 
 
 class Fraction:
@@ -76,7 +74,6 @@ class Fraction:
             self.denominator = third
 
         # self.simplify()
-        self.value = self.numerator / self.denominator
         self.exact_form = (self.numerator, self.denominator)
 
     def simplify(self):
@@ -94,6 +91,9 @@ class Fraction:
             return self.numerator / self.denominator <= other.numerator / other.denominator
         else:
             return self.numerator / self.denominator <= other
+
+    def __le__(self, other):
+        return self.__eq__(other) or self.__lt__(other)
 
     def __add__(self, f2):
         if self.denominator == f2.denominator:
@@ -115,6 +115,12 @@ class Fraction:
         else:
             return Fraction(self.numerator * other.numerator, self.denominator * other.denominator).simplify()
 
+    def __truediv__(self, other):
+        if type(other) == int:
+            return Fraction(self.numerator, self.denominator * other).simplify()
+        else:
+            return Fraction(self.numerator * other.denominator, self.denominator * other.numerator).simplify()
+
     def __pow__(self, power, modulo=None):
         return Fraction(self.numerator ** power, self.denominator ** power).simplify()
 
@@ -123,6 +129,9 @@ class Fraction:
             return str(self.numerator // self.denominator)
         else:
             return f'{self.numerator}/{self.denominator}'
+
+    def __int__(self):
+        return round(self.numerator / self.denominator)
 
     def __abs__(self):
         self.numerator = abs(self.numerator)
@@ -153,9 +162,9 @@ def main():
     # print(f7 - f8)
     # print(f7 == f8)
 
-    e = Fraction(8, 2)
+    e = Fraction(-1, 4)
 
-    print(factorial(e, limit=None))
+    print(combination(e, 2))
 
 
 if __name__ == '__main__':
