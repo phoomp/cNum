@@ -89,7 +89,7 @@ class Fraction:
         else:
             return abs(self.numerator / self.denominator - other) < epsilon
 
-    def __le__(self, other):
+    def __lt__(self, other):
         if type(other) == Fraction:
             return self.numerator / self.denominator <= other.numerator / other.denominator
         else:
@@ -153,7 +153,10 @@ def main():
     # print(f7 - f8)
     # print(f7 == f8)
 
-    print(factorial(7, limit=5))
+    e = Fraction(8, 2)
+
+    print(factorial(e, limit=None))
+
 
 if __name__ == '__main__':
     main()
