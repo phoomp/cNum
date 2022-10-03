@@ -2,6 +2,7 @@
 # Created by Phoom Punpeng
 # 2022-10-02
 
+##### BEGIN GATHER #####
 from math import comb, gcd
 
 
@@ -23,7 +24,7 @@ def combination(n, r):
 
     # Type checking: r is a positive integer
     if type(r) == Fraction:
-        assert r.isint()
+        assert r.is_int()
         r = int(r)
 
     # Preparation: can we use Python's built-in function or not?
@@ -73,7 +74,6 @@ class Fraction:
             self.numerator = numerator * third + denominator
             self.denominator = third
 
-        # self.simplify()
         self.exact_form = (self.numerator, self.denominator)
 
     def simplify(self):
@@ -94,6 +94,12 @@ class Fraction:
 
     def __le__(self, other):
         return self.__eq__(other) or self.__lt__(other)
+
+    def __gt__(self, other):
+        return not self.__lt__(other) and not self.__eq__(other)
+
+    def __ge__(self, other):
+        return not self.__lt__(other)
 
     def __add__(self, f2):
         if self.denominator == f2.denominator:
@@ -121,8 +127,14 @@ class Fraction:
         else:
             return Fraction(self.numerator * other.denominator, self.denominator * other.numerator).simplify()
 
+    def __floordiv__(self, other):
+        return self.numerator // self.denominator
+
     def __pow__(self, power, modulo=None):
         return Fraction(self.numerator ** power, self.denominator ** power).simplify()
+
+    def root(self, n=2):
+        return Fraction(self.numerator ** (1 / n), self.denominator ** (1 / n)).__ensure__int()
 
     def __str__(self):
         if self.is_int():
@@ -131,40 +143,37 @@ class Fraction:
             return f'{self.numerator}/{self.denominator}'
 
     def __int__(self):
+        if not self.is_int():
+            print(Warning('Fraction is not an integer'))
+
         return round(self.numerator / self.denominator)
+
+    def __float__(self):
+        return self.numerator / self.denominator
 
     def __abs__(self):
         self.numerator = abs(self.numerator)
         self.denominator = abs(self.denominator)
         return self
 
+    def __ensure__int(self):
+        while (int(self.numerator) != self.numerator) or (int(self.denominator) != self.denominator):
+            self.numerator *= 10
+            self.denominator *= 10
+
+        self.numerator = int(self.numerator)
+        self.denominator = int(self.denominator)
+        self.simplify()
+
     def is_int(self):
         return self.numerator % self.denominator == 0
 
+##### END GATHER #####
 
 def main():
-    print('Beginning Test')
-    #
-    # f1 = Fraction(1, 2, 3)
-    # f2 = Fraction(1, 3)
-    #
-    # f4 = Fraction(1, 1)
-    # f5 = Fraction(7, 8)
-    # f6 = Fraction(1, 8)
-    #
-    # f7 = Fraction(2200000001, 700000000)
-    # f8 = Fraction(22, 7)
-    #
-    # three = Fraction(3)
-    #
-    # print(f7)
-    # print(f8)
-    # print(f7 - f8)
-    # print(f7 == f8)
+    print(combination(Fraction(1, 4), Fraction(6, 2)))
 
-    e = Fraction(-1, 4)
-
-    print(combination(e, 2))
+    # print(Fraction(9, 16).root(2))
 
 
 if __name__ == '__main__':
