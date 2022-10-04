@@ -9,10 +9,23 @@ def gcd(a, b):
     # Find minimum of a and b
     result = min(a, b)
 
-    while result:
-        if a % result == 0 and b % result == 0:
-            break
-        result -= 1
+    if result < 10e5:
+        while result:
+            print(result)
+            if a % result == 0 and b % result == 0:
+                break
+            result -= 1
+
+    else:
+        i = 10e5
+        result = 1
+        while i:
+            if a % i == 0 and b % i == 0:
+                result *= i
+                a /= i
+                b /= i
+
+            i -= 1
 
     # Return the gcd of a and b
     return int(result)
@@ -247,11 +260,13 @@ class Fraction:
 
 
 def main():
-    # print(combination(Fraction(1, 4), Fraction(6, 2)))
+    # # print(combination(Fraction(1, 4), Fraction(6, 2)))
+    #
+    # print(Fraction(4, 16) ** 2)
+    #
+    # # print(Fraction(9, 16).root(2))
 
-    print(Fraction(4, 16) ** 2)
-
-    # print(Fraction(9, 16).root(2))
+    print(gcd(14538527563, 145385294453))  # answer: 18823
 
 
 if __name__ == '__main__':
