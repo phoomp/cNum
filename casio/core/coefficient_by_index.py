@@ -9,7 +9,7 @@ def solve_given_index(t1, t2, power, index):
     assert type(t1) == Term and type(t2) == Term
     assert type(index) == int
 
-    coefficient = combination(Fraction(power), Fraction(index))
+    coefficient = combination(power, Fraction(index))
     coefficient = (t1.coefficient.__pow__(power - index)).__mul__(coefficient)  # Do this to avoid unsupported *=
     coefficient = (t2.coefficient.__pow__(index)).__mul__(coefficient)
 
@@ -24,7 +24,7 @@ def main():
         t1e = Fraction(input('t1e: '))
         t2c = Fraction(input('t2c: '))
         t2e = Fraction(input('t2e: '))
-        p = int(input('p: '))
+        p = Fraction(input('p: '))
         t = int(input('t idx: '))
 
     except Exception as e:

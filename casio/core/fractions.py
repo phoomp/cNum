@@ -192,7 +192,17 @@ class Fraction:
         return self.numerator // self.denominator
 
     def __pow__(self, power):
-        return Fraction(self.numerator ** power, self.denominator ** power).__ensure__int()
+        if type(power) == Fraction:
+            if power < 0:
+                self.numerator, self.denominator = self.denominator, self.numerator
+                power *= -1
+
+            self.numerator = self.numerator ** power.numerator
+            self.denominator = self.denominator ** power.numerator
+
+            return Fraction(self.numerator, self.denominator).root(power.denominator)
+        else:
+            return Fraction(self.numerator ** power, self.denominator ** power).__ensure__int()
 
     def root(self, n=2):
         return Fraction(self.numerator ** (1 / n), self.denominator ** (1 / n)).__ensure__int()
@@ -231,7 +241,7 @@ class Fraction:
         return self.simplify()
 
     def is_int(self):
-        return self.numerator % self.denominator == 0
+        return float(self.numerator / self.denominator) - int(self.numerator / self.denominator) == 0
 
 ##### END GATHER #####
 
