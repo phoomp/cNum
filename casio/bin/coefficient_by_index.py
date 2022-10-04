@@ -3,6 +3,7 @@ from ..core.terms import *
 from ..core.fractions import *
 
 ##### BEGIN GATHER #####
+
 def solve_given_index(t1, t2, power, index):
     assert type(t1) == Term and type(t2) == Term
     assert int(index) == index
@@ -15,14 +16,15 @@ def solve_given_index(t1, t2, power, index):
 
     return Term(coefficient=coefficient, exponent=degree)
 
+
 def main():
     try:
-        t1c = int(input('t1c: '))
-        t1e = int(input('t1e: '))
-        t2c = int(input('t2c: '))
-        t2e = int(input('t2e: '))
-        p = int(input('p: '))
-        t = int(input('t idx: '))
+        t1c = Fraction(input('t1c: '))
+        t1e = Fraction(input('t1e: '))
+        t2c = Fraction(input('t2c: '))
+        t2e = Fraction(input('t2e: '))
+        p = Fraction(input('p: '))
+        t = Fraction(input('t idx: '))
 
     except TypeError as e:
         print('err')

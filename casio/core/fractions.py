@@ -64,23 +64,55 @@ def combination(n, r):
 
 class Fraction:
     def __init__(self, numerator, denominator=1, third=None):
-        if denominator == 0:
-            raise ValueError('Denominator cannot be 0')
-
-        if third is None:
-            self.numerator = numerator
-            self.denominator = denominator
+        if type(numerator) == str:
+            assert denominator == 1 and third is None
+            self.parse(numerator)
         else:
-            self.numerator = numerator * third + denominator
-            self.denominator = third
+            if denominator == 0:
+                raise ValueError('Denominator cannot be 0')
 
-        self.exact_form = (self.numerator, self.denominator)
+            if third is None:
+                self.numerator = numerator
+                self.denominator = denominator
+            else:
+                self.numerator = numerator * third + denominator
+                self.denominator = third
+
+            self.exact_form = (self.numerator, self.denominator)
+
+    def parse(self, s):
+        try:
+            if int(s) == s:
+                self.numerator = int(s)
+        except Exception as e:
+            print('1')
+            pass
+
+        try:
+            if float(s) == s:
+                self.numerator = s
+                self.__ensure__int()
+        except Exception as e:
+            print('2')
+            pass
+
+        try:
+            if '/' in s:
+                assert s.count('/') == 1
+                s = s.split('/')
+                self.numerator = float(s[0])
+                self.denominator = float(s[1])
+                self.__ensure__int()
+
+        except Exception as e:
+            print('3')
+            pass
 
     def simplify(self):
         g = gcd(self.numerator, self.denominator)
         return Fraction(self.numerator // g, self.denominator // g)
 
-    def __eq__(self, other, epsilon=1e-6):
+    def __eq__(self, other =1e-6):
         if type(other) == Fraction:
             return abs(self.numerator / self.denominator - other.numerator / other.denominator) < epsilon
         else:
@@ -130,8 +162,8 @@ class Fraction:
     def __floordiv__(self, other):
         return self.numerator // self.denominator
 
-    def __pow__(self, power, modulo=None):
-        return Fraction(self.numerator ** power, self.denominator ** power).simplify()
+    def __pow__(self, power):
+        return Fraction(self.numerator ** power, self.denominator ** power).__ensure__int()
 
     def root(self, n=2):
         return Fraction(self.numerator ** (1 / n), self.denominator ** (1 / n)).__ensure__int()
@@ -163,15 +195,18 @@ class Fraction:
 
         self.numerator = int(self.numerator)
         self.denominator = int(self.denominator)
-        self.simplify()
+        return self.simplify()
 
     def is_int(self):
         return self.numerator % self.denominator == 0
 
 ##### END GATHER #####
 
+
 def main():
-    print(combination(Fraction(1, 4), Fraction(6, 2)))
+    # print(combination(Fraction(1, 4), Fraction(6, 2)))
+
+    print(Fraction(4, 16) ** 2)
 
     # print(Fraction(9, 16).root(2))
 
