@@ -11,7 +11,6 @@ def gcd(a, b):
 
     if result < 10e5:
         while result:
-            print(result)
             if a % result == 0 and b % result == 0:
                 break
             result -= 1
@@ -266,7 +265,7 @@ def main():
     #
     # # print(Fraction(9, 16).root(2))
 
-    print(gcd(14538527563, 145385294453))  # answer: 18823
+    print(gcd(5960797072573, 5960861127242))  # answer: 771743
 
 
 if __name__ == '__main__':
