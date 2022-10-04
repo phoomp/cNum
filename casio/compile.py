@@ -4,7 +4,7 @@ dependencies = [
     'core/terms.py'
 ]
 
-target = 'bin/coefficient_by_index.py'
+target = 'core/coefficient_by_index.py'
 output = 'output.py'
 
 

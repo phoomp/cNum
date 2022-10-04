@@ -3,7 +3,19 @@
 # 2022-10-02
 
 ##### BEGIN GATHER #####
-from math import comb, gcd
+
+# GCD Function, for Python 2
+def gcd(a, b):
+    # Find minimum of a and b
+    result = min(a, b)
+
+    while result:
+        if a % result == 0 and b % result == 0:
+            break
+        result -= 1
+
+    # Return the gcd of a and b
+    return int(result)
 
 
 def similar(f1, f2):
@@ -16,6 +28,20 @@ def factorial(n, limit=None):
         return 1
     else:
         return n * factorial(n - 1, limit)
+
+
+# Python 2 substitute for Python 3's comb function
+def comb(n, r):
+    # nCr = n! / r!(n-r)!
+    assert type(n) == int and type(r) == int
+
+    n_fac = factorial(n)
+    r_fac = factorial(r)
+    n_r_fac = factorial(n - r)
+
+    d = r_fac * n_r_fac
+
+    return int(n_fac / d)
 
 
 def combination(n, r):
@@ -66,6 +92,7 @@ class Fraction:
     def __init__(self, numerator, denominator=1, third=None):
         if type(numerator) == str:
             assert denominator == 1 and third is None
+            self.denominator = denominator
             self.parse(numerator)
         else:
             if denominator == 0:
@@ -82,20 +109,19 @@ class Fraction:
 
     def parse(self, s):
         try:
-            if int(s) == s:
+            if int(s) == float(s):
                 self.numerator = int(s)
+                return
         except Exception as e:
-            print('1')
             pass
 
         try:
             if float(s) == s:
                 self.numerator = s
                 self.__ensure__int()
+                return
         except Exception as e:
-            print('2')
             pass
-
         try:
             if '/' in s:
                 assert s.count('/') == 1
@@ -103,16 +129,19 @@ class Fraction:
                 self.numerator = float(s[0])
                 self.denominator = float(s[1])
                 self.__ensure__int()
-
+                return
         except Exception as e:
-            print('3')
             pass
 
+        raise ValueError('Unsupported value: ' + s)
+
     def simplify(self):
+        if self.numerator <= 0 or self.denominator < 0:
+            return self
         g = gcd(self.numerator, self.denominator)
         return Fraction(self.numerator // g, self.denominator // g)
 
-    def __eq__(self, other =1e-6):
+    def __eq__(self, other, epsilon=1e-6):
         if type(other) == Fraction:
             return abs(self.numerator / self.denominator - other.numerator / other.denominator) < epsilon
         else:
@@ -172,13 +201,17 @@ class Fraction:
         if self.is_int():
             return str(self.numerator // self.denominator)
         else:
-            return f'{self.numerator}/{self.denominator}'
+            return str(self.numerator) + '/' + str(self.denominator)
 
     def __int__(self):
         if not self.is_int():
             print(Warning('Fraction is not an integer'))
 
         return round(self.numerator / self.denominator)
+
+    # Replacement for Python 2's lack of __int__() function
+    def get_int(self):
+        return int(round(self.numerator / self.denominator))
 
     def __float__(self):
         return self.numerator / self.denominator
