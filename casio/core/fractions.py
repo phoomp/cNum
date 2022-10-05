@@ -2,6 +2,8 @@
 # Created by Phoom Punpeng
 # 2022-10-02
 
+from __future__ import division
+
 ##### BEGIN GATHER #####
 
 # GCD Function, for Python 2
@@ -39,7 +41,11 @@ def factorial(n, limit=None):
     if (limit is not None and n <= limit) or (limit is None and n < 1):
         return 1
     else:
-        return n * factorial(n - 1, limit)
+        if isinstance(n, Fraction):
+            # Get around Python 2's limitations
+            return n.__mul__(factorial(n.__sub__(1), limit))
+        else:
+            return n * factorial(n - 1, limit)
 
 
 # Python 2 substitute for Python 3's comb function
@@ -57,11 +63,11 @@ def comb(n, r):
 
 
 def combination(n, r):
-    assert type(n) == int or type(n) == Fraction
-    assert type(r) == int or type(r) == Fraction and r >= 0
+    assert type(n) == int or isinstance(n, Fraction)
+    assert type(r) == int or isinstance(r, Fraction) and r >= 0
 
     # Type checking: r is a positive integer
-    if type(r) == Fraction:
+    if isinstance(r, Fraction):
         assert r.is_int()
         r = int(r)
 
@@ -70,7 +76,7 @@ def combination(n, r):
     n_use_builtin = False
     if type(n) == int or n.is_int():
         n_isint = True
-        n = int(n)
+        n = n.get_int()
         if n >= 0:
             n_use_builtin = True
 
@@ -97,7 +103,10 @@ def combination(n, r):
         return comb(n, r)
     else:
         # Use the formula for combinations
-        return factorial(n, limit=n - r) / factorial(r)
+        if isinstance(n, Fraction):
+            return factorial(n, limit=n.__sub__(r)).__truediv__(factorial(r))
+        else:
+            return factorial(n, limit=n - r) / factorial(r)
 
 
 class Fraction:
@@ -155,13 +164,13 @@ class Fraction:
         return Fraction(self.numerator // g, self.denominator // g)
 
     def __eq__(self, other, epsilon=1e-6):
-        if type(other) == Fraction:
+        if isinstance(other, Fraction):
             return abs(self.numerator / self.denominator - other.numerator / other.denominator) < epsilon
         else:
             return abs(self.numerator / self.denominator - other) < epsilon
 
     def __lt__(self, other):
-        if type(other) == Fraction:
+        if isinstance(other, Fraction):
             return self.numerator / self.denominator <= other.numerator / other.denominator
         else:
             return self.numerator / self.denominator <= other
@@ -176,6 +185,9 @@ class Fraction:
         return not self.__lt__(other)
 
     def __add__(self, f2):
+        if type(f2) == float or type(f2) == int:
+            f2 = Fraction(f2).__ensure__int()
+
         if self.denominator == f2.denominator:
             return Fraction(self.numerator + f2.numerator, self.denominator).simplify()
         else:
@@ -183,6 +195,9 @@ class Fraction:
                             self.denominator * f2.denominator).simplify()
 
     def __sub__(self, f2):
+        if type(f2) == float or type(f2) == int:
+            f2 = Fraction(f2).__ensure__int()
+
         if self.denominator == f2.denominator:
             return Fraction(self.numerator - f2.numerator, self.denominator).simplify()
         else:
@@ -190,7 +205,7 @@ class Fraction:
                             self.denominator * f2.denominator).simplify()
 
     def __mul__(self, other):
-        if type(other) == int:
+        if not isinstance(other, Fraction):
             return Fraction(self.numerator * other, self.denominator).simplify()
         else:
             return Fraction(self.numerator * other.numerator, self.denominator * other.denominator).simplify()
@@ -205,7 +220,7 @@ class Fraction:
         return self.numerator // self.denominator
 
     def __pow__(self, power):
-        if type(power) == Fraction:
+        if isinstance(power, Fraction):
             if power < 0:
                 self.numerator, self.denominator = self.denominator, self.numerator
                 power *= -1

@@ -1,11 +1,13 @@
 dependencies = [
     'core/equations.py',
     'core/fractions.py',
-    'core/terms.py'
 ]
 
 target = 'core/coefficient_by_index.py'
-output = 'output.py'
+output = 'co.py'
+
+# target = 'core/binomial.py'
+# output = 'bin.py'
 
 
 def compile_and_save():
