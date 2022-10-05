@@ -69,7 +69,7 @@ def combination(n, r):
     # Type checking: r is a positive integer
     if isinstance(r, Fraction):
         assert r.is_int()
-        r = int(r)
+        r = r.get_int()
 
     # Preparation: can we use Python's built-in function or not?
     n_isint = False
@@ -223,7 +223,7 @@ class Fraction:
         if isinstance(power, Fraction):
             if power < 0:
                 self.numerator, self.denominator = self.denominator, self.numerator
-                power *= -1
+                power.__mul__(-1)
 
             self.numerator = self.numerator ** power.numerator
             self.denominator = self.denominator ** power.numerator
