@@ -148,9 +148,10 @@ class Fraction:
         raise ValueError('Unsupported value: ' + s)
 
     def simplify(self):
-        if self.numerator <= 0 or self.denominator < 0:
+        if self.numerator == 0 or self.denominator == 1:
             return self
-        g = gcd(self.numerator, self.denominator)
+
+        g = gcd(abs(self.numerator), abs(self.denominator))
         return Fraction(self.numerator // g, self.denominator // g)
 
     def __eq__(self, other, epsilon=1e-6):
@@ -211,7 +212,6 @@ class Fraction:
 
             self.numerator = self.numerator ** power.numerator
             self.denominator = self.denominator ** power.numerator
-
             return Fraction(self.numerator, self.denominator).root(power.denominator)
         else:
             return Fraction(self.numerator ** power, self.denominator ** power).__ensure__int()
@@ -250,7 +250,7 @@ class Fraction:
 
         self.numerator = int(self.numerator)
         self.denominator = int(self.denominator)
-        return self.simplify()
+        return Fraction(self.numerator, self.denominator).simplify()
 
     def is_int(self):
         return float(self.numerator / self.denominator) - int(self.numerator / self.denominator) == 0

@@ -12,6 +12,7 @@ def solve_given_index(t1, t2, power, index):
     coefficient = combination(power, Fraction(index))
     coefficient = (t1.coefficient.__pow__(power - index)).__mul__(coefficient)  # Do this to avoid unsupported *=
     coefficient = (t2.coefficient.__pow__(index)).__mul__(coefficient)
+    coefficient = coefficient.simplify()
 
     degree = (t1.exponent.__mul__(power - index)).__add__(t2.exponent.__mul__(index))
 
