@@ -9,10 +9,19 @@ def solve_given_index(t1, t2, power, index):
     assert type(t1) == Term and type(t2) == Term
     assert type(index) == int
 
-    coefficient = combination(power, Fraction(index))
-    coefficient = (t1.coefficient.__pow__(power - index)).__mul__(coefficient)  # Do this to avoid unsupported *=
-    coefficient = (t2.coefficient.__pow__(index)).__mul__(coefficient)
-    coefficient = coefficient.simplify()
+    print(t1)
+    print(t2)
+    print(power)
+    print(index)
+
+    coefficient1 = Fraction(combination(power, Fraction(index)))
+    coefficient2 = (t1.coefficient.__pow__(power - index))  # Do this to avoid unsupported *=
+    coefficient3 = (t2.coefficient.__pow__(index))
+
+    print(coefficient1)
+    print(coefficient2)
+    coefficient = coefficient1.__mul__(coefficient2)
+    coefficient = coefficient.__mul__(coefficient3)
 
     degree = (t1.exponent.__mul__(power - index)).__add__(t2.exponent.__mul__(index))
 
