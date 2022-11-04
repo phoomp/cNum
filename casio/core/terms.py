@@ -48,7 +48,7 @@ def main():
     d = Term(14, 20)
     e = Term(Fraction(2, 29), 4)
 
-    print((a * (b + c) * d) / e)
+    print(a)
 
 
 if __name__ == '__main__':

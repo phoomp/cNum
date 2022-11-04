@@ -6,6 +6,7 @@ from __future__ import division
 
 ##### BEGIN GATHER #####
 
+
 # GCD Function, for Python 2
 def gcd(a, b):
     # Find minimum of a and b
@@ -161,7 +162,7 @@ class Fraction:
             return self
 
         g = gcd(abs(self.numerator), abs(self.denominator))
-        return Fraction(self.numerator // g, self.denominator // g)
+        return Fraction(self.numerator / g, self.denominator / g)
 
     def __eq__(self, other, epsilon=1e-6):
         if isinstance(other, Fraction):
@@ -206,9 +207,10 @@ class Fraction:
 
     def __mul__(self, other):
         if not isinstance(other, Fraction):
-            return Fraction(self.numerator * other, self.denominator).simplify()
-        else:
-            return Fraction(self.numerator * other.numerator, self.denominator * other.denominator).simplify()
+            other = Fraction(other)
+
+        other = other.simplify()
+        return Fraction(self.numerator * other.numerator, self.denominator * other.denominator).simplify()
 
     def __truediv__(self, other):
         if type(other) == int:
@@ -269,6 +271,7 @@ class Fraction:
 
     def is_int(self):
         return float(self.numerator / self.denominator) - int(self.numerator / self.denominator) == 0
+
 
 ##### END GATHER #####
 
