@@ -24,7 +24,7 @@ class Term:
             raise ValueError('Non-similar terms cannot be subtracted.')
 
     def __mul__(self, other):
-        return Term(coefficient=self.coefficient * other.coefficient, exponent=self.exponent + other.exponent)
+        return Term(coefficient=self.coefficient * other.coefficient, exponent=self.exponent + other.exponent).simplify()
 
     def __truediv__(self, other):
         return Term(coefficient=self.coefficient / other.coefficient, exponent=self.exponent - other.exponent)

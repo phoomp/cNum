@@ -64,8 +64,8 @@ def comb(n, r):
 
 
 def combination(n, r):
-    assert type(n) == int or isinstance(n, Fraction)
-    assert type(r) == int or isinstance(r, Fraction) and r >= 0
+    assert isinstance(n, int) or isinstance(n, Fraction)
+    assert isinstance(r, int) or (isinstance(r, Fraction) and r.is_int())
 
     # Type checking: r is a positive integer
     if isinstance(r, Fraction):
