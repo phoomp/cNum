@@ -101,13 +101,14 @@ def combination(n, r):
 
     # If n is an integer, we can use Python's built-in function
     if n_use_builtin:
-        return comb(n, r)
+        return Fraction(comb(n, r))
     else:
         # Use the formula for combinations
         if isinstance(n, Fraction):
-            return factorial(n, limit=n.__sub__(r)).__truediv__(factorial(r))
+            # return Fraction(factorial(n, limit=n.__sub__(r)).__truediv__(factorial(r)))
+            return factorial(n, n.__sub__(r)).__truediv__(r)
         else:
-            return factorial(n, limit=n - r) / factorial(r)
+            return Fraction(factorial(n, limit=n - r), factorial(r))
 
 
 class Fraction:
@@ -162,7 +163,8 @@ class Fraction:
             return self
 
         g = gcd(abs(self.numerator), abs(self.denominator))
-        return Fraction(self.numerator / g, self.denominator / g)
+        assert self.numerator % g == 0 and self.denominator % g == 0
+        return Fraction(int(self.numerator / g), int(self.denominator / g))
 
     def __eq__(self, other, epsilon=1e-6):
         if isinstance(other, Fraction):
@@ -238,9 +240,9 @@ class Fraction:
 
     def __str__(self):
         if self.is_int():
-            return str(self.numerator // self.denominator)
+            return str(int(self.numerator // self.denominator))
         else:
-            return str(self.numerator) + '/' + str(self.denominator)
+            return str(int(self.numerator)) + '/' + str(int(self.denominator))
 
     def __int__(self):
         if not self.is_int():
@@ -277,13 +279,21 @@ class Fraction:
 
 
 def main():
-    # # print(combination(Fraction(1, 4), Fraction(6, 2)))
+    # f = Fraction(1)
+    # f = f / 1002934
+    # g = f + 3
+    # print(g)
     #
-    # print(Fraction(4, 16) ** 2)
+    # print(f)
+    print(combination(Fraction(-3, 2), Fraction(2)))
     #
-    # # print(Fraction(9, 16).root(2))
+    # print(Fraction(4, 17) ** 2)
+    #
+    # print(Fraction(9, 16).root(3))
+    # n = Fraction(-3, 2)
+    # print(factorial(n, n.__sub__(2)))
 
-    print(gcd(5960797072573, 5960861127242))  # answer: 771743
+    # print(gcd(5960797072573, 5960861127242))  # answer: 771743
 
 
 if __name__ == '__main__':
