@@ -12,3 +12,4 @@ casio/bin/cpp/*.out
 /casio/physics/raw.txt
 /casio/physics/s.py
 /casio/physics/search.py
+*.txt
