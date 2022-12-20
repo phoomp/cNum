@@ -8,3 +8,7 @@ operations/tests/*.out
 graphExecution/.DS_Store
 .DS_Store
 casio/bin/cpp/*.out
+/casio/physics/ans_raw.txt
+/casio/physics/raw.txt
+/casio/physics/s.py
+/casio/physics/search.py
