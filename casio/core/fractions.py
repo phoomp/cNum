@@ -106,9 +106,9 @@ def combination(n, r):
         # Use the formula for combinations
         if isinstance(n, Fraction):
             # return Fraction(factorial(n, limit=n.__sub__(r)).__truediv__(factorial(r)))
-            return factorial(n, n.__sub__(r)).__truediv__(r)
+            return factorial(n, limit=n.__sub__(r)).__truediv__(factorial(r))
         else:
-            return Fraction(factorial(n, limit=n - r), factorial(r))
+            return factorial(n, limit=n - r).__truediv__(factorial(r))
 
 
 class Fraction:
@@ -285,7 +285,7 @@ def main():
     # print(g)
     #
     # print(f)
-    print(combination(Fraction(-3, 2), Fraction(2)))
+    print(combination(Fraction(-20, 3), Fraction(6)))
     #
     # print(Fraction(4, 17) ** 2)
     #
